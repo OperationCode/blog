@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "gatsby clean && gatsby build",
+    "dev": "yarn develop",
     "develop": "gatsby clean && gatsby develop",
     "start": "npm run develop",
     "serve": "npm run build && gatsby serve -p 9000",
