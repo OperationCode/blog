@@ -37,16 +37,7 @@ const plugins = [
   'gatsby-plugin-offline',
 ];
 
-module.exports = client.getEntries().then(entries => {
-  const { mediumUser } = entries.items.find(getAboutEntry).fields;
-
-  plugins.push({
-    resolve: 'gatsby-source-medium',
-    options: {
-      username: mediumUser || '@medium',
-    },
-  });
-
+module.exports = client.getEntries().then(() => {
   if (ANALYTICS_ID) {
     plugins.push({
       resolve: 'gatsby-plugin-google-analytics',
@@ -58,7 +49,6 @@ module.exports = client.getEntries().then(entries => {
 
   return {
     siteMetadata: {
-      isMediumUserDefined: !!mediumUser,
       deterministicBehaviour: !!DETERMINISTIC,
     },
     plugins,

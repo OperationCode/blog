@@ -722,7 +722,7 @@
     "@babel/plugin-transform-react-jsx-self" "^7.0.0"
     "@babel/plugin-transform-react-jsx-source" "^7.0.0"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.3", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.0", "@babel/runtime@^7.6.2", "@babel/runtime@^7.6.3":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.3", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.6.3":
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.3.tgz#935122c74c73d2240cafd32ddb5fc2a6cd35cf1f"
   integrity sha512-kq6anf9JGjW8Nt5rYfEuGRaEAaH1mkv3Bbu6rYvLOpPh/RusSJXuKPEAoZ7L7gybZkchE8+NV5g9vKF4AGAtsA==
@@ -6499,13 +6499,6 @@ gatsby-source-filesystem@^2.1.33:
     read-chunk "^3.2.0"
     valid-url "^1.0.9"
     xstate "^4.6.7"
-
-"gatsby-source-medium@file:gatsby-source-medium-2.1.6-patch.tgz":
-  version "2.1.6"
-  resolved "file:gatsby-source-medium-2.1.6-patch.tgz#dbdc8e8c69a18ef7c986905de5116f7edbf0e29d"
-  dependencies:
-    "@babel/runtime" "^7.6.0"
-    axios "^0.19.0"
 
 gatsby-telemetry@^1.1.33:
   version "1.1.33"
