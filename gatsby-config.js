@@ -9,8 +9,6 @@ const client = contentful.createClient({
   accessToken: ACCESS_TOKEN,
 });
 
-const getAboutEntry = entry => entry.sys.contentType.sys.id === 'about';
-
 const plugins = [
   'gatsby-plugin-react-helmet',
   {
