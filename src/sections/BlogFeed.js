@@ -77,7 +77,7 @@ const ImageContainer = styled.div`
   }
 `;
 
-const ProjectImage = styled(Image)`
+const BlogImage = styled(Image)`
   width: ${CARD_HEIGHT};
   height: ${CARD_HEIGHT};
   padding: 40px;
@@ -91,7 +91,7 @@ const ProjectImage = styled(Image)`
   }
 `;
 
-const ProjectTag = styled.div`
+const BlogTag = styled.div`
   position: relative;
   height: ${CARD_HEIGHT};
   top: calc(
@@ -103,21 +103,13 @@ const ProjectTag = styled.div`
   }
 `;
 
-const Project = ({
-  name,
-  description,
-  projectUrl,
-  repositoryUrl,
-  type,
-  publishedDate,
-  logo,
-}) => (
+const BlogPost = ({ title, description, publishedDate }) => (
   <Card p={0}>
     <Flex style={{ height: CARD_HEIGHT }}>
       <TextContainer>
         <span>
           <Title my={2} pb={1}>
-            {name}
+            {title}
           </Title>
         </span>
         <Text width={[1]} style={{ overflow: 'auto' }}>
@@ -126,26 +118,15 @@ const Project = ({
       </TextContainer>
 
       <ImageContainer>
-        <ProjectImage src={logo.image.src} alt={logo.title} />
-        <ProjectTag>
+        <BlogImage src={logo.image.src} alt={logo.title} />
+        <BlogTag>
           <Flex
             style={{
               float: 'right',
             }}
           >
             <Box mx={1} fontSize={5}>
-              <SocialLink
-                name="Check repository"
-                fontAwesomeIcon="github"
-                url={repositoryUrl}
-              />
-            </Box>
-            <Box mx={1} fontSize={5}>
-              <SocialLink
-                name="See project"
-                fontAwesomeIcon="globe"
-                url={projectUrl}
-              />
+              <SocialLink name="Read More" fontAwesomeIcon="globe" url={slug} />
             </Box>
           </Flex>
           <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
@@ -154,57 +135,46 @@ const Project = ({
           <Hide query={MEDIA_QUERY_SMALL}>
             <ImageSubtitle bg="backgroundDark">{publishedDate}</ImageSubtitle>
           </Hide>
-        </ProjectTag>
+        </BlogTag>
       </ImageContainer>
     </Flex>
   </Card>
 );
 
-Project.propTypes = {
-  name: PropTypes.string.isRequired,
+BlogPost.propTypes = {
+  title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  projectUrl: PropTypes.string.isRequired,
-  repositoryUrl: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
   publishedDate: PropTypes.string.isRequired,
-  logo: PropTypes.shape({
-    image: PropTypes.shape({
-      src: PropTypes.string,
-    }),
-    title: PropTypes.string,
-  }).isRequired,
 };
 
-const Projects = () => (
-  <Section.Container id="projects" Background={Background}>
-    <Section.Header name="Projects" icon="💻" label="notebook" />
+const BlogFeed = () => (
+  <Section.Container id="blogFeed" Background={Background}>
+    <Section.Header name="Recent Posts" icon="💻" label="notebook" />
     <StaticQuery
       query={graphql`
-        query ProjectsQuery {
-          contentfulAbout {
-            projects {
-              id
-              name
-              description
-              projectUrl
-              repositoryUrl
-              publishedDate(formatString: "YYYY")
-              type
-              logo {
-                title
-                image: resize(width: 200, quality: 100) {
-                  src
+        query FeedQuery {
+          allContentfulBlogPost {
+            nodes {
+              title
+              publishDate(formatString: "dddd DD MMMM YYYY")
+              childContentfulBlogPostDescriptionTextNode {
+                description
+              }
+              heroImage {
+                file {
+                  url
                 }
+                description
               }
             }
           }
         }
       `}
-      render={({ contentfulAbout }) => (
+      render={({ contentfulBlogPost }) => (
         <CardContainer minWidth="350px">
-          {contentfulAbout.projects.map((p, i) => (
+          {contentfulBlogPost.BlogFeed.map((p, i) => (
             <Fade bottom delay={i * 200} key={p.id}>
-              <Project {...p} />
+              <BlogPost {...p} />
             </Fade>
           ))}
         </CardContainer>
@@ -213,4 +183,5 @@ const Projects = () => (
   </Section.Container>
 );
 
-export default Projects;
+export default BlogFeed;
+/* to do: create post template and figure out how to congat the slug and the page. should be okish easyish mehbeh */
