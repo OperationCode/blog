@@ -153,18 +153,24 @@ const BlogFeed = () => (
     <StaticQuery
       query={graphql`
         query FeedQuery {
-          allContentfulBlogPost {
-            nodes {
-              title
-              publishDate(formatString: "dddd DD MMMM YYYY")
-              childContentfulBlogPostDescriptionTextNode {
-                description
-              }
-              heroImage {
-                file {
-                  url
+          allContentfulBlogPost(sort: { order: DESC, fields: publishDate }) {
+            edges {
+              node {
+                description {
+                  description
                 }
-                description
+                publishDate(formatString: "DD MMMM YYYY")
+                author {
+                  github
+                  name
+                  title
+                  image {
+                    file {
+                      url
+                    }
+                  }
+                }
+                title
               }
             }
           }
@@ -172,7 +178,7 @@ const BlogFeed = () => (
       `}
       render={({ contentfulBlogPost }) => (
         <CardContainer minWidth="350px">
-          {contentfulBlogPost.BlogFeed.map((p, i) => (
+          {contentfulBlogPost.BlogPost.map((p, i) => (
             <Fade bottom delay={i * 200} key={p.id}>
               <BlogPost {...p} />
             </Fade>
