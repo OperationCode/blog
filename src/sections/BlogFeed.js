@@ -103,6 +103,7 @@ const BlogTag = styled.div`
   }
 `;
 
+/* eslint no-undef: "off" */
 const BlogPost = ({ title, description, publishedDate, heroImage, slug }) => (
   <Card p={0}>
     <Flex style={{ height: CARD_HEIGHT }}>
@@ -155,18 +156,23 @@ const BlogFeed = () => (
     <StaticQuery
       query={graphql`
         query BlogFeed {
-          allContentfulBlogPost(sort: { fields: publishDate, order: DESC }) {
-            nodes {
-              title
-              publishDate(formatString: "DD MMMM YYYY")
-              description {
-                description
-              }
-              heroImage {
-                file {
-                  url
-                }
+          allContentfulBlogPost(
+            limit: 10
+            sort: { fields: publishDate, order: DESC }
+          ) {
+            edges {
+              node {
                 title
+                publishDate(formatString: "DD MMMM YYYY")
+                description {
+                  description
+                }
+                heroImage {
+                  file {
+                    url
+                  }
+                  title
+                }
               }
             }
           }
@@ -174,7 +180,7 @@ const BlogFeed = () => (
       `}
       render={({ allContentfulBlogPost }) => (
         <CardContainer minWidth="350px">
-          {allContentfulBlogPost.nodes.map((p, i) => (
+          {allContentfulBlogPost.edges.node.map((p, i) => (
             <Fade bottom delay={i * 200} key={p.id}>
               <BlogPost {...p} />
             </Fade>
