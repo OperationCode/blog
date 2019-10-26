@@ -102,9 +102,9 @@ const BlogTag = styled.div`
     top: calc(-${CARD_HEIGHT} - 3.5px + (${CARD_HEIGHT} / 4));
   }
 `;
-
 /* eslint no-undef: "off" */
-const BlogPost = ({ title, description, publishedDate, heroImage, slug }) => (
+
+const Post = ({ title, description, publishedDate, heroImage, slug }) => (
   <Card p={0}>
     <Flex style={{ height: CARD_HEIGHT }}>
       <TextContainer>
@@ -119,7 +119,7 @@ const BlogPost = ({ title, description, publishedDate, heroImage, slug }) => (
       </TextContainer>
 
       <ImageContainer>
-        <BlogImage src={heroImage.file.url} alt={heroImage.title} />
+        <BlogImage src="/" alt="title" />
         <BlogTag>
           <Flex
             style={{
@@ -142,11 +142,10 @@ const BlogPost = ({ title, description, publishedDate, heroImage, slug }) => (
   </Card>
 );
 
-BlogPost.propTypes = {
+Post.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   publishedDate: PropTypes.string.isRequired,
-  heroImage: PropTypes.string,
   slug: PropTypes.string,
 };
 
@@ -180,9 +179,9 @@ const BlogFeed = () => (
       `}
       render={({ allContentfulBlogPost }) => (
         <CardContainer minWidth="350px">
-          {allContentfulBlogPost.edges.node.map((p, i) => (
+          {allContentfulBlogPost.edges.map((p, i) => (
             <Fade bottom delay={i * 200} key={p.id}>
-              <BlogPost {...p} />
+              <Post {...p} />
             </Fade>
           ))}
         </CardContainer>
