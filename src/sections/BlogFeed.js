@@ -102,24 +102,21 @@ const BlogTag = styled.div`
     top: calc(-${CARD_HEIGHT} - 3.5px + (${CARD_HEIGHT} / 4));
   }
 `;
-/* eslint no-undef: "off" */
 
-const Post = ({ title, description, publishedDate, heroImage, slug }) => (
+const Post = ({ title, publishedDate, heroImage, slug, category }) => (
   <Card p={0}>
     <Flex style={{ height: CARD_HEIGHT }}>
       <TextContainer>
-        <span>
-          <Title my={2} pb={1}>
-            {title}
-          </Title>
-        </span>
+        <Title my={2} pb={1}>
+          {title}
+        </Title>
         <Text width={[1]} style={{ overflow: 'auto' }}>
-          {description}
+          {publishedDate}
         </Text>
       </TextContainer>
 
       <ImageContainer>
-        <BlogImage src="/" alt="title" />
+        <BlogImage src={heroImage} alt={heroImage} />
         <BlogTag>
           <Flex
             style={{
@@ -127,11 +124,11 @@ const Post = ({ title, description, publishedDate, heroImage, slug }) => (
             }}
           >
             <Box mx={1} fontSize={5}>
-              <SocialLink name="Read More" fontAwesomeIcon="globe" url={slug} />
+              <SocialLink name="Read More" fontAwesomeIcon="book" url={slug} />
             </Box>
           </Flex>
           <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
-            <p>Tags go here</p>
+            {category}
           </ImageSubtitle>
           <Hide query={MEDIA_QUERY_SMALL}>
             <ImageSubtitle bg="backgroundDark">{publishedDate}</ImageSubtitle>
@@ -144,9 +141,10 @@ const Post = ({ title, description, publishedDate, heroImage, slug }) => (
 
 Post.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
   publishedDate: PropTypes.string.isRequired,
   slug: PropTypes.string,
+  heroImage: PropTypes.string,
 };
 
 const BlogFeed = () => (
@@ -163,9 +161,7 @@ const BlogFeed = () => (
               node {
                 title
                 publishDate(formatString: "DD MMMM YYYY")
-                description {
-                  description
-                }
+                category
                 heroImage {
                   file {
                     url
@@ -179,10 +175,8 @@ const BlogFeed = () => (
       `}
       render={({ allContentfulBlogPost }) => (
         <CardContainer minWidth="350px">
-          {allContentfulBlogPost.edges.map((p, i) => (
-            <Fade bottom delay={i * 200} key={p.id}>
-              <Post {...p} />
-            </Fade>
+          {allContentfulBlogPost.edges.map(p => (
+            <Post {...p} key={p.id} />
           ))}
         </CardContainer>
       )}
