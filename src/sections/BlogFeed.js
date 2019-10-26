@@ -154,7 +154,7 @@ const BlogFeed = () => (
     <Section.Header name="Recent Posts" icon="💻" label="notebook" />
     <StaticQuery
       query={graphql`
-        query FeedQuery {
+        query BlogFeed {
           allContentfulBlogPost(sort: { fields: publishDate, order: DESC }) {
             nodes {
               title
@@ -186,4 +186,3 @@ const BlogFeed = () => (
 );
 
 export default BlogFeed;
-/* to do: create post template and figure out how to congat the slug and the page. should be okish easyish mehbeh */
