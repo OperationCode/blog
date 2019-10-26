@@ -103,7 +103,7 @@ const BlogTag = styled.div`
   }
 `;
 
-const BlogPost = ({ title, description, publishedDate }) => (
+const BlogPost = ({ title, description, publishedDate, heroImage, slug }) => (
   <Card p={0}>
     <Flex style={{ height: CARD_HEIGHT }}>
       <TextContainer>
@@ -118,7 +118,7 @@ const BlogPost = ({ title, description, publishedDate }) => (
       </TextContainer>
 
       <ImageContainer>
-        <BlogImage src={logo.image.src} alt={logo.title} />
+        <BlogImage src={heroImage.file.url} alt={heroImage.title} />
         <BlogTag>
           <Flex
             style={{
@@ -130,7 +130,7 @@ const BlogPost = ({ title, description, publishedDate }) => (
             </Box>
           </Flex>
           <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
-            {type}
+            <p>Tags go here</p>
           </ImageSubtitle>
           <Hide query={MEDIA_QUERY_SMALL}>
             <ImageSubtitle bg="backgroundDark">{publishedDate}</ImageSubtitle>
@@ -145,6 +145,8 @@ BlogPost.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   publishedDate: PropTypes.string.isRequired,
+  heroImage: PropTypes.string,
+  slug: PropTypes.string,
 };
 
 const BlogFeed = () => (
@@ -153,22 +155,16 @@ const BlogFeed = () => (
     <StaticQuery
       query={graphql`
         query FeedQuery {
-          allContentfulBlogPost(sort: { order: DESC, fields: publishDate }) {
-            edges {
-              node {
-                description {
-                  description
-                }
-                publishDate(formatString: "DD MMMM YYYY")
-                author {
-                  github
-                  name
-                  title
-                  image {
-                    file {
-                      url
-                    }
-                  }
+          allContentfulBlogPost(sort: { fields: publishDate, order: DESC }) {
+            nodes {
+              title
+              publishDate(formatString: "DD MMMM YYYY")
+              description {
+                description
+              }
+              heroImage {
+                file {
+                  url
                 }
                 title
               }
@@ -176,9 +172,9 @@ const BlogFeed = () => (
           }
         }
       `}
-      render={({ contentfulBlogPost }) => (
+      render={({ allContentfulBlogPost }) => (
         <CardContainer minWidth="350px">
-          {contentfulBlogPost.BlogPost.map((p, i) => (
+          {allContentfulBlogPost.nodes.map((p, i) => (
             <Fade bottom delay={i * 200} key={p.id}>
               <BlogPost {...p} />
             </Fade>
