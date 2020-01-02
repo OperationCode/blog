@@ -1,54 +1,113 @@
-const contentful = require('contentful');
-const manifestConfig = require('./manifest-config');
-require('dotenv').config();
+const urljoin = require("url-join");
+const path = require("path");
+const dotenv = require('dotenv');
+const config = require("./data/SiteConfig");
 
-const { ACCESS_TOKEN, SPACE_ID, ANALYTICS_ID, DETERMINISTIC } = process.env;
 
-const client = contentful.createClient({
-  space: SPACE_ID,
-  accessToken: ACCESS_TOKEN,
-});
+dotenv.config({
+  path: `.env.${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+})
 
-const plugins = [
-  'gatsby-plugin-react-helmet',
-  {
-    resolve: 'gatsby-plugin-web-font-loader',
-    options: {
-      google: {
-        families: ['Cabin', 'Open Sans'],
-      },
-    },
+module.exports = {
+  pathPrefix: config.pathPrefix === "" ? "/" : config.pathPrefix,
+  siteMetadata: {
+    siteUrl: urljoin(config.siteUrl, config.pathPrefix),
+    rssMetadata: {
+      site_url: urljoin(config.siteUrl, config.pathPrefix),
+      feed_url: urljoin(config.siteUrl, config.pathPrefix, config.siteRss),
+      title: config.siteTitle,
+      description: config.siteDescription,
+      image_url: `${urljoin(
+        config.siteUrl,
+        config.pathPrefix
+      )}/logos/logo-512.png`,
+      copyright: config.copyright
+    }
   },
-  {
-    resolve: 'gatsby-plugin-manifest',
-    options: manifestConfig,
-  },
-  'gatsby-plugin-styled-components',
-  {
-    resolve: 'gatsby-source-contentful',
-    options: {
-      spaceId: SPACE_ID,
-      accessToken: ACCESS_TOKEN,
-    },
-  },
-  'gatsby-transformer-remark',
-  'gatsby-plugin-offline',
-];
-
-module.exports = client.getEntries().then(() => {
-  if (ANALYTICS_ID) {
-    plugins.push({
-      resolve: 'gatsby-plugin-google-analytics',
+  plugins: [
+    "gatsby-plugin-react-helmet",
+    "gatsby-plugin-lodash",
+    {
+      resolve: "gatsby-source-filesystem",
       options: {
-        trackingId: ANALYTICS_ID,
-      },
-    });
-  }
-
-  return {
-    siteMetadata: {
-      deterministicBehaviour: !!DETERMINISTIC,
+        name: "assets",
+        path: `${__dirname}/static/`
+      }
     },
-    plugins,
-  };
-});
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `oinav3dadfu6`,
+        accessToken: `Rj4njwVCTk6zozoDiAm2-rr1uedDicBOuwC3HsX-Ymk`,
+      },
+    },
+    {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        plugins: [
+          {
+            resolve: "gatsby-remark-images",
+            options: {
+              maxWidth: 690
+            }
+          },
+          {
+            resolve: "gatsby-remark-responsive-iframe"
+          },
+          "gatsby-remark-copy-linked-files",
+          "gatsby-remark-autolink-headers",
+          "gatsby-remark-prismjs"
+        ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-emotion`,
+      options: {
+        // Accepts all options defined by `babel-plugin-emotion` plugin.
+      },
+    },
+    {
+      resolve: "gatsby-plugin-google-analytics",
+      options: {
+        trackingId: config.googleAnalyticsID
+      }
+    },
+    {
+      resolve: "gatsby-plugin-nprogress",
+      options: {
+        color: config.themeColor
+      }
+    },
+    'gatsby-plugin-theme-ui',
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-catch-links",
+    "gatsby-plugin-twitter",
+    "gatsby-plugin-sitemap",
+    {
+      resolve: "gatsby-plugin-manifest",
+      options: {
+        name: config.siteTitle,
+        short_name: config.siteTitleShort,
+        description: config.siteDescription,
+        start_url: config.pathPrefix,
+        background_color: config.backgroundColor,
+        theme_color: config.themeColor,
+        display: "minimal-ui",
+        icons: [
+          {
+            src: "/logos/logo-192.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "/logos/logo-512.png",
+            sizes: "512x512",
+            type: "image/png"
+          }
+        ]
+      }
+    },
+    "gatsby-plugin-offline",
+  ]
+};
