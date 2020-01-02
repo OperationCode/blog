@@ -17,3 +17,14 @@ Do you want to write a blog post for us, but have no ideas? We have ideas for yo
 - How to use Slack
 - Resume tips
 - What do I need to know to get my first dev job?
+
+## To-Do's
+- Configure SEO Component 
+- Configure Disqus Component
+- Comfigure Social Media Components
+- omg someone make this stupid thing pretty 
+- Add Cypress.io
+- Do something with theme.ui
+- Hero images for blog posts
+- Component that pulls correct author info from Contentful
+- Configure Google Analytics (or remove?)
