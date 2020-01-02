@@ -1,24 +1,7 @@
-<div align="center">
-  <br />
-  <a href="https://operationcode.org">
-    <img
-      alt="Operation Code Hacktoberfest Banner"
-      src="https://operation-code-assets.s3.us-east-2.amazonaws.com/operation_code_hacktoberfest_2019.jpg"
-    >
-  </a>
-  <br />
-  <br />
-</div>
-
-# 🎃 Hacktoberfest 🎃
-
-[All the details you need](https://github.com/OperationCode/START_HERE/blob/master/README.md#-hacktoberfest-) before participating with us.
-
-<br />
-
 # Operation Code Blog
 
 Hello! We are starting to collect blog posts for the Operation Code blog so we can build a backlog of content. We want to welcome all kinds of contributors, so if you have a blog post you would like to see on whatever blogging platform we use, read below.
+Want to contribute? [Start Here!](https://github.com/OperationCode/START_HERE/blob/master/README.md)
 [Need Ideas?](https://github.com/OperationCode/blog/blob/master/CONTRIBUTING.md#available-topics)
 
 ## How To Contribute
